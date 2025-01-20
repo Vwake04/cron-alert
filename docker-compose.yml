@@ -1,0 +1,55 @@
+services:
+  app:
+    build: .
+    environment:
+      - DB_TYPE=${DB_TYPE:-postgresql}
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=upgrades
+      - SQLITE_PATH=${SQLITE_PATH:-/app/data/upgrades.db}
+      - SMTP_SERVER=${SMTP_SERVER}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SCHEDULE_TIMES=${SCHEDULE_TIMES:-09:00,21:00}
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    depends_on:
+      - db
+    profiles:
+      - postgresql
+      - all
+
+  app-sqlite:
+    build: .
+    environment:
+      - DB_TYPE=sqlite
+      - SQLITE_PATH=/app/data/db.sqlite3
+      - SMTP_SERVER=${SMTP_SERVER:-smtp.gmail.com}
+      - SMTP_USERNAME=${SMTP_USERNAME:-test@gmail.com}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-16-digit-app-password}
+      - SCHEDULE_TIMES=${SCHEDULE_TIMES:-09:00,21:00}
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+      - .:/app
+    profiles:
+      - sqlite
+      - all
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=upgrades
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    profiles:
+      - postgresql
+      - all
+
+volumes:
+  postgres_data:

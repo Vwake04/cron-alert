@@ -1,0 +1,11 @@
+[project]
+name = "cron-alert"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "loguru>=0.7.3",
+    "schedule>=1.2.2",
+    "sqlmodel>=0.0.22",
+]

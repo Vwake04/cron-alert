@@ -1,0 +1,16 @@
+# Virtual Environment
+.venv/
+.env
+
+# DS_Store
+.DS_Store
+
+# Data
+data/
+
+# Logs
+logs/
+*.log
+
+# uv
+uv.lock
