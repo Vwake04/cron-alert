@@ -14,3 +14,6 @@ logs/
 
 # uv
 uv.lock
+
+# pycache
+__pycache__/
